@@ -25,19 +25,18 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         btn_test = findViewById(R.id.bt_create);
-
         btn_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "List Event", Toast.LENGTH_SHORT).show();
           //      Intent intent = new Intent(MainActivity.this, Cakelist_firebase_api.class);
-                Intent intent = new Intent(MainActivity.this, Cake_details.class);
+                Intent intent = new Intent(MainActivity.this, Cakelist_firebase_api.class);
                 startActivity(intent);
 
             }
         });
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,8 +59,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+    public void gotoCreate (View view) {
+        Intent intent = new Intent(this, Cakelist_firebase_api.class); //to go to Create Design class
+        startActivity(intent);
+    }
 
-    @Override
+        @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {

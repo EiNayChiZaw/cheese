@@ -1,6 +1,7 @@
 package com.sakebakery.opus;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -44,17 +46,18 @@ public class Cakelist_firebase_api extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cake_list_layout);
-
         cake_list= findViewById(R.id.cake_list);
-
         cakeObjs = new ArrayList<>();
-
         if(Util.isOnline(getApplicationContext())){
             LoadFirebaseDB();
         }else {
             Toast.makeText(getApplicationContext(), "No internet connection!", Toast.LENGTH_SHORT).show();
         }
+    }
 
+        public void gotoCreate (View view){
+        Intent intent = new Intent (this, Cake_details.class); //to go to Create Design class
+        startActivity(intent);
     }
 
     @Override
@@ -65,7 +68,6 @@ public class Cakelist_firebase_api extends AppCompatActivity {
     }
 
     public void LoadFirebaseDB() {
-
 
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(Cakelist_firebase_api.this);
@@ -101,7 +103,6 @@ public class Cakelist_firebase_api extends AppCompatActivity {
                     }
                 }
                 LoadUI();
-
                 DismissDialog();
             }
 
@@ -121,15 +122,10 @@ public class Cakelist_firebase_api extends AppCompatActivity {
 
 
     public void LoadUI() {
-
         cakeImagelistAdapter = new CakeImagelistAdapter(Cakelist_firebase_api.this,cakeObjs);
-
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-
         cake_list.setLayoutManager(mLayoutManager);
         cake_list.setItemAnimator(new DefaultItemAnimator());
         cake_list.setAdapter(cakeImagelistAdapter);
-
     }
-
 }

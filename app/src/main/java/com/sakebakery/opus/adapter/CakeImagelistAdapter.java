@@ -1,15 +1,19 @@
 package com.sakebakery.opus.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sakebakery.opus.Cake_details;
 import com.sakebakery.opus.obj.Cakeobj;
 import com.sakebakery.opus.R;
 import com.squareup.picasso.Picasso;
@@ -36,17 +40,43 @@ public class CakeImagelistAdapter extends RecyclerView.Adapter<CakeImagelistAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        viewHolder.name_tv.setText(cakeobjs.get(position).getCake_name());
-        viewHolder.flavor_tv.setText(cakeobjs.get(position).getCake_flavor());
-        viewHolder.price_tv.setText(cakeobjs.get(position).getCake_price());
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
 
+        try{
+            viewHolder.name_tv.setText(cakeobjs.get(position).getCake_name());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        try{
+            viewHolder.flavor_tv.setText(cakeobjs.get(position).getCake_flavor());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        try{
+            viewHolder.price_tv.setText(cakeobjs.get(position).getCake_price());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        viewHolder.linearLayout.setOnClickListener(new View.OnClickListener(){
+        @Override
+                public void onClick (View view) {
+           // String cid=cakeobjs.get(position).getCake_id();
+//            Log.e("CiD: ", cid.toString() );
+          // ArrayList<Cakeobj> cobj=new ArrayList<Cakeobj>();
+            Intent intent = new Intent(activity, Cake_details.class);
+            intent.putExtra("obj", cakeobjs.get(position));
+         //   intent.putExtra("array",);
+            activity.startActivity(intent);
+        }
+        });
 
         try{
             Picasso.with(activity).load(cakeobjs.get(position).getCake_image()).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(viewHolder.thumb_iv);
         }catch (Exception e){
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -57,6 +87,7 @@ public class CakeImagelistAdapter extends RecyclerView.Adapter<CakeImagelistAdap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        public CardView linearLayout;
         public TextView name_tv;
         public TextView flavor_tv;
         public TextView price_tv;
@@ -68,6 +99,7 @@ public class CakeImagelistAdapter extends RecyclerView.Adapter<CakeImagelistAdap
             this.flavor_tv = view.findViewById(R.id.tv_cake_flavor);
             this.price_tv = view.findViewById(R.id.tv_cake_price);
             this.thumb_iv = view.findViewById(R.id.cake_thumbnail);
+            this.linearLayout=view.findViewById(R.id.Liner);
         }
 
     }
